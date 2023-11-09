@@ -3,15 +3,15 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["RandomlyPingFishermanBot.csproj", "./"]
-RUN dotnet restore "RandomlyPingFishermanBot.csproj"
+COPY ["RandomlyBoopTimmityBot.csproj", "./"]
+RUN dotnet restore "RandomlyBoopTimmityBot.csproj"
 COPY . .
-RUN dotnet build "RandomlyPingFishermanBot.csproj" -c Release -o /app/build
+RUN dotnet build "RandomlyBoopTimmityBot.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "RandomlyPingFishermanBot.csproj" -c Release -o /app/publish
+RUN dotnet publish "RandomlyBoopTimmityBot.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "RandomlyPingFishermanBot.dll"]
+ENTRYPOINT ["dotnet", "RandomlyBoopTimmityBot.dll"]
