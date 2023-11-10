@@ -1,5 +1,6 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
+using DSharpPlus.Exceptions;
 
 string botToken = Environment.GetEnvironmentVariable("BOT_TOKEN")!;
 ulong targetId = ulong.Parse(Environment.GetEnvironmentVariable("TARGET_ID")!);
@@ -17,7 +18,13 @@ while (true) {
 
 	// Find a guild where the target is and we can DM them
 	foreach (DiscordGuild guild in discord.Guilds.Values) {
-		DiscordMember? targetMember = await guild.GetMemberAsync(targetId);
+		DiscordMember? targetMember;
+		try {
+			targetMember = await guild.GetMemberAsync(targetId);
+		} catch (NotFoundException) {
+			continue;
+		}
+		
 		if (targetMember != null) {
 			await targetMember.SendMessageAsync(message);
 		}
